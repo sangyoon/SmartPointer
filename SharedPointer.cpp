@@ -1,14 +1,15 @@
 #include <iostream>
 #include <algorithm> // for swap
-#include <crtdbg.h>
 #include <cstdlib>
 
 struct Base;
-template <typename T = Base> class SharedPointer; typedef SharedPointer<> SharedPtr;
+template <typename T = Base> class SharedPointer;
+typedef SharedPointer<> SharedPtr;
 
-struct Base {
+struct Base
+{
 public:
-	Base(int v1, int v2) : val1(v1), val2(v2) {}
+  Base(int v1, int v2) : val1(v1), val2(v2) {}
 	
 public:
 	int val1;
@@ -67,30 +68,3 @@ private:
 	T* ptr;
 	size_t* count;
 };
-
-void Test1()
-{
-	SharedPtr p = new Base(10, 20);
-	
-	int i = p->val1 + (*p).val2;
-	_ASSERTE(i == 30);
-}
-
-void Test2()
-{
-	SharedPtr p1 = new Base(10, 20);
-	{
-		SharedPtr p2 = p1;
-		_ASSERTE(p2.GetRefCount() == 2);
-	}
-	
-	_ASSERTE(p1.GetRefCount() == 1);
-}
-
-int main(int argc, char** argv)
-{
-	Test1();
-	Test2();
-
-	return EXIT_SUCCESS;
-}
